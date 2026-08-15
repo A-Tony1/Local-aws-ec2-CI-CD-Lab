@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -26,6 +25,13 @@ pipeline {
             steps {
                 echo 'Packaging application...'
                 sh 'mvn package -DskipTests'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                echo 'Building Docker image...'
+                sh 'docker build -t devops-status-app:1.0.0 .'
             }
         }
     }
