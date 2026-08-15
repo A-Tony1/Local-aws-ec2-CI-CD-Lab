@@ -1,3 +1,4 @@
+```groovy
 pipeline {
     agent any
 
@@ -52,5 +53,28 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy to dev server') {
+            steps {
+                echo 'Deploying application to VM2 dev-server...'
+
+                sshagent(['dev-server-ssh-key']) {
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no dev-server@192.168.146.138 "
+                            docker pull azubuike1/devops-status-app:1.0.0 &&
+                            docker stop devops-status-app || true &&
+                            docker rm devops-status-app || true &&
+                            docker run -d \
+                                --name devops-status-app \
+                                -p 8081:8080 \
+                                -e DEPLOYMENT_ENV=dev-server \
+                                -e DEPLOYMENT_PLATFORM=docker \
+                                azubuike1/devops-status-app:1.0.0
+                        "
+                    '''
+                }
+            }
+        }
     }
 }
+```
