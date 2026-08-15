@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -31,7 +32,25 @@ pipeline {
         stage('Docker Build') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t devops-status-app:1.0.0 .'
+                sh 'docker build -t azubuike1/devops-status-app:1.0.0 .'
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                echo 'Pushing Docker image to Docker Hub...'
+
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker-hub-repo',
+                    usernameVariable: 'DOCKER_USERNAME',
+                    passwordVariable: 'DOCKER_PASSWORD'
+                )]) {
+                    sh '''
+                        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                        docker push azubuike1/devops-status-app:1.0.0
+                        docker logout
+                    '''
+                }
             }
         }
     }
