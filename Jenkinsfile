@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -18,6 +19,13 @@ pipeline {
             steps {
                 echo 'Running Maven tests...'
                 sh 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                echo 'Packaging application...'
+                sh 'mvn package -DskipTests'
             }
         }
     }
