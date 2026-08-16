@@ -64,8 +64,9 @@ pipeline {
                             docker stop devops-status-app || true &&
                             docker rm devops-status-app || true &&
                             docker run -d \
-                                --name devops-status-app \
-                                -p 8081:8080 \
+                                --name devops-status-app \ 
+                                --restart unless-stopped \
+                                -p 8081:8080 \ 
                                 -e DEPLOYMENT_ENV=dev-server \
                                 -e DEPLOYMENT_PLATFORM=docker \
                                 azubuike1/devops-status-app:1.0.0
