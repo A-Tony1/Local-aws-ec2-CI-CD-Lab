@@ -65,7 +65,6 @@ pipeline {
                             docker rm devops-status-app || true &&
                             docker run -d \
                                 --name devops-status-app \ 
-                                --restart unless-stopped  \
                                 -p 8081:8080 \ 
                                 -e DEPLOYMENT_ENV=dev-server \
                                 -e DEPLOYMENT_PLATFORM=docker \
