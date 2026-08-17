@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = 'azubuike1/devops-status-app'
+        IMAGE_TAG  = '1.0.0'
+    }
+
     tools {
         maven 'Maven-3.9'
     }
@@ -31,7 +36,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t azubuike1/devops-status-app:1.0.0 .'
+                sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
             }
         }
 
@@ -46,7 +51,7 @@ pipeline {
                 )]) {
                     sh '''
                         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-                        docker push azubuike1/devops-status-app:1.0.0
+                        docker push ${IMAGE_NAME}:${IMAGE_TAG}
                         docker logout
                     '''
                 }
@@ -60,7 +65,7 @@ pipeline {
                 sshagent(['dev-server-ssh-key']) {
                     sh '''
                         ssh -o StrictHostKeyChecking=no dev-server@192.168.146.138 "
-                            docker pull azubuike1/devops-status-app:1.0.0 &&
+                            docker pull ${IMAGE_NAME}:${IMAGE_TAG} &&
                             docker stop devops-status-app || true &&
                             docker rm devops-status-app || true &&
                             docker run -d \
@@ -68,7 +73,7 @@ pipeline {
                                 -p 8081:8080 \
                                 -e DEPLOYMENT_ENV=dev-server \
                                 -e DEPLOYMENT_PLATFORM=docker \
-                                azubuike1/devops-status-app:1.0.0
+                                ${IMAGE_NAME}:${IMAGE_TAG}
                         "
                     '''
                 }
