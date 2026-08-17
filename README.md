@@ -162,8 +162,43 @@ The project contains a Spring Boot application named:
 ```text
 devops-status-app
 ```
-
 The application provides endpoints for health and deployment status verification.
+---
+
+## Architecture
+
+The project uses two Ubuntu VMware virtual machines to simulate a cloud-based CI/CD environment.
+
+![CI/CD Architecture](docs/architecture.png)
+
+### Deployment Flow
+
+```text
+GitHub
+   |
+   v
+Jenkins — VM1
+   |
+   +-- Checkout
+   +-- Maven Test
+   +-- Maven Package
+   +-- Docker Build
+   +-- Docker Push
+   |
+   v
+Docker Hub
+   |
+   | SSH Deployment
+   v
+dev-server — VM2
+   |
+   +-- Docker Container
+   |
+   v
+Spring Boot Application
+   |
+   v
+Health / Status Verification
 
 ## Health Check
 
