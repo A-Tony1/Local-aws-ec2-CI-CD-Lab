@@ -586,5 +586,6 @@ The project also demonstrates how a local VMware environment can be used to repr
 DevOps Engineer
 
 GitHub: https://github.com/A-Tony1
+E-mail: anthonyabia.devops@gmail.com
 
 This project is continuously evolving as part of my hands-on DevOps engineering portfolio.
