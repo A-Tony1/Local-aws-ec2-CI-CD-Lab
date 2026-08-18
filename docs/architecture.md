@@ -1,4 +1,4 @@
-# Architecture — Local AWS EC2 CI/CD Lab
+# Architecture — On-premise CI/CD Deployment Automation Project
 
 ## Overview
 

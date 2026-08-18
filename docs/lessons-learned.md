@@ -1,4 +1,4 @@
-# Lessons Learned — Local AWS EC2 CI/CD Lab
+# Lessons Learned — On-premise CI/CD Deployment Automation Project
 
 ## 1. Introduction
 

@@ -1,4 +1,4 @@
-# Deployment Guide — Local AWS EC2 CI/CD Lab
+# Deployment Guide — On-premise CI/CD Deployment Automation Project
 
 ## 1. Introduction
 
