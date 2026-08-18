@@ -1,4 +1,4 @@
-# On-Premise CI/CD Deployment Automation Lab
+# On-Premise CI/CD Deployment Automation Project
 
 A production-style DevOps CI/CD deployment that simulates an AWS EC2 deployment environment using two Ubuntu VMware virtual machines.
 
