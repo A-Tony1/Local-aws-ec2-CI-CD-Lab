@@ -2,7 +2,7 @@
 
 A production-style DevOps CI/CD deployment that simulates an AWS EC2 deployment environment using two Ubuntu VMware virtual machines.
 
-This project demonstrates how I designed and implement an end-to-end CI/CD pipeline without requiring an AWS account, while maintaining the core workflow used in a cloud-based deployment environment.
+This project demonstrates how I designed and implemented an end-to-end CI/CD pipeline without requiring an AWS account, while maintaining the core workflow used in a cloud-based deployment environment.
 
 The project builds, tests, packages, containerizes, publishes, and automatically deploys a Java Spring Boot application from GitHub through Jenkins to a remote development server.
 
