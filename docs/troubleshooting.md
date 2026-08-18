@@ -1,4 +1,4 @@
-# Troubleshooting Guide — Local AWS EC2 CI/CD Lab
+# Troubleshooting Guide  - On-premise CI/CD Deployment Automation Project
 
 ## 1. Purpose
 
