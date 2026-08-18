@@ -1,8 +1,8 @@
-# Local AWS EC2 CI/CD Lab
+# On-Premise CI/CD Deployment Automation Lab
 
-A production-style DevOps CI/CD laboratory that simulates an AWS EC2 deployment environment using two Ubuntu VMware virtual machines.
+A production-style DevOps CI/CD deployment that simulates an AWS EC2 deployment environment using two Ubuntu VMware virtual machines.
 
-This project demonstrates how a DevOps Engineer can design and implement an end-to-end CI/CD pipeline without requiring an AWS account, while maintaining the core workflow used in a cloud-based deployment environment.
+This project demonstrates how I designed and implement an end-to-end CI/CD pipeline without requiring an AWS account, while maintaining the core workflow used in a cloud-based deployment environment.
 
 The project builds, tests, packages, containerizes, publishes, and automatically deploys a Java Spring Boot application from GitHub through Jenkins to a remote development server.
 
@@ -24,20 +24,20 @@ The objective of this project is to implement an automated CI/CD workflow that:
 * Exposes the application through a network port
 * Verifies that the deployed application is running
 
-The laboratory uses two VMware Ubuntu virtual machines to simulate a real cloud environment.
+The Project uses two VMware Ubuntu virtual machines to simulate a real cloud environment.
 
 | Machine | Role                                  |
 | ------- | ------------------------------------- |
 | VM1     | Jenkins / CI/CD server                |
 | VM2     | Remote development/application server |
 
-VM2 is named `dev-server` and represents the remote server that would normally be an AWS EC2 instance.
+VM2 is named "dev-server" and represents the remote server that would normally be an AWS EC2 [any other cloud provider] instance.
 
 ---
 
 # Architecture
 
-```text
+'
                          GitHub
                            |
                            | Git Push
@@ -84,15 +84,15 @@ VM2 is named `dev-server` and represents the remote server that would normally b
                             |
                             v
                        Web Browser
-```
 
----
+
+
 
 # CI/CD Workflow
 
 The implemented pipeline follows this workflow:
 
-```text
+
 Developer
     |
     | git push
@@ -132,9 +132,7 @@ Spring Boot Application
     |
     v
 Health / Status Endpoint
-```
-
----
+`
 
 # Technologies Used
 
@@ -159,11 +157,9 @@ Health / Status Endpoint
 
 The project contains a Spring Boot application named:
 
-```text
 devops-status-app
-```
+
 The application provides endpoints for health and deployment status verification.
----
 
 ## Architecture
 
@@ -173,7 +169,6 @@ The project uses two Ubuntu VMware virtual machines to simulate a cloud-based CI
 
 ### Deployment Flow
 
-```text
 GitHub
    |
    v
@@ -202,38 +197,32 @@ Health / Status Verification
 
 ## Health Check
 
-```text
 GET /api/health
-```
 
 Example response:
 
-```json
+json
 {
   "status": "UP"
 }
-```
+
 
 ## Deployment Status
 
-```text
 GET /api/status
-```
 
 Example response:
 
-```json
+json
 {
   "environment": "dev-server",
   "deployment": "docker",
   "application": "devops-status-app",
   "status": "UP"
 }
-```
+
 
 The status endpoint demonstrates the use of environment-specific configuration rather than hardcoding deployment information into the application.
-
----
 
 # Local Infrastructure
 
@@ -253,19 +242,15 @@ Responsibilities include:
 
 Jenkins is exposed on:
 
-```text
-http://localhost:8080
-```
 
----
+http://localhost:8080
 
 ## VM2 — Development/Application Server
 
 VM2 is named:
 
-```text
+
 dev-server
-```
 
 It simulates a remote AWS EC2 application server.
 
@@ -273,25 +258,15 @@ The application is deployed to VM2 through SSH from Jenkins.
 
 The Docker container exposes:
 
-```text
 8081:8080
-```
 
 Therefore, the application can be accessed through:
-
-```text
 http://localhost:8081/api/status
-```
-
 when accessed from VM2.
 
-The VM2 address used in this laboratory is:
+The VM2 address used in this project is:
 
-```text
 192.168.146.138
-```
-
----
 
 # Docker
 
@@ -306,11 +281,7 @@ The Dockerfile:
 
 The Docker image used by the CI/CD pipeline is:
 
-```text
 azubuike1/devops-status-app:1.0.0
-```
-
----
 
 # Docker Compose
 
@@ -318,39 +289,32 @@ Docker Compose is used as part of the local development and container-management
 
 The Compose configuration allows the Docker image to be supplied through an environment variable:
 
-```yaml
+yaml
 image: ${IMAGE}
-```
-
 For example:
 
-```bash
+bash
 export IMAGE=devops-status-app:1.0.0
 docker compose up -d
-```
-
 The deployment can be verified with:
 
-```bash
+bash
 docker compose ps
-```
 
 And the application can be tested with:
 
-```bash
+bash
 curl http://localhost:8081/api/health
 curl http://localhost:8081/api/status
-```
 
 Docker Compose provides a convenient local deployment mechanism, while the Jenkins pipeline uses direct Docker commands for the automated remote deployment to VM2.
 
----
 
 # Jenkins CI/CD Pipeline
 
 The Jenkins pipeline contains the following stages:
 
-```text
+
 Checkout
    |
    v
@@ -367,7 +331,6 @@ Docker Push
    |
    v
 Deploy to dev-server
-```
 
 ## 1. Checkout
 
@@ -377,33 +340,29 @@ Jenkins retrieves the application source code from GitHub.
 
 Maven executes the automated tests:
 
-```bash
+bash
 mvn test
-```
 
 ## 3. Package
 
 The application is packaged as a Spring Boot JAR:
 
-```bash
+bash
 mvn package -DskipTests
-```
 
 ## 4. Docker Build
 
 Jenkins builds the Docker image:
 
-```bash
+bash
 docker build -t azubuike1/devops-status-app:1.0.0 .
-```
 
 ## 5. Docker Push
 
 Jenkins authenticates securely with Docker Hub using Jenkins credentials and pushes:
 
-```text
+
 azubuike1/devops-status-app:1.0.0
-```
 
 ## 6. Deploy to VM2
 
@@ -411,7 +370,7 @@ Jenkins connects to VM2 through SSH and executes the deployment commands remotel
 
 The deployment process:
 
-```text
+
 Docker Pull
      |
      v
@@ -422,11 +381,10 @@ Remove Existing Container
      |
      v
 Run New Container
-```
 
-The application is then available on port `8081`.
 
----
+The application is then available on port :8081 .
+
 
 # Remote Deployment
 
@@ -434,51 +392,44 @@ The remote deployment server is accessed using SSH.
 
 The Jenkins server connects to:
 
-```text
+
 dev-server@192.168.146.138
-```
 
 SSH key authentication is used rather than manually entering a password during every deployment.
 
 This demonstrates a common DevOps practice of using automated, non-interactive authentication for server-to-server deployment.
 
----
 
 # Deployment Verification
 
 After deployment, the application can be verified on VM2 with:
 
-```bash
+bash
 docker ps
-```
 
 Example:
 
-```text
+``
 devops-status-app
 0.0.0.0:8081->8080/tcp
-```
 
 The application can then be tested with:
 
-```bash
+bash
 curl http://localhost:8081/api/status
-```
 
 Example successful response:
 
-```json
+json
 {
   "environment": "dev-server",
   "status": "UP",
   "application": "devops-status-app",
   "deployment": "docker"
 }
-```
 
 The application was also successfully verified through a web browser.
 
----
 
 # AWS EC2 Simulation
 
@@ -490,7 +441,7 @@ This laboratory intentionally replaces AWS EC2 infrastructure with VMware Ubuntu
 | EC2 Development Server | VM2                          |
 | AWS Security Groups    | VMware/network configuration |
 | EC2 Private IP         | VM IP address                |
-| SSH to EC2             | SSH to `dev-server`          |
+| SSH to EC2             | SSH to "dev-server"          |
 | Container Registry     | Docker Hub                   |
 
 The purpose is to provide a realistic hands-on DevOps environment without requiring continuous AWS infrastructure costs.
@@ -529,23 +480,14 @@ This project demonstrates practical experience with:
 
 The first complete CI/CD deployment has been frozen as:
 
-```text
 v1.0.0
-```
 
 Release description:
 
-```text
 First complete CI/CD deployment
-```
-
 This provides a known-good baseline for future development and experimentation.
 
----
-
 # Project Structure
-
-```text
 Local-aws-ec2-CI-CD-Lab/
 │
 ├── .gitignore
@@ -569,9 +511,6 @@ Local-aws-ec2-CI-CD-Lab/
         └── java/
             └── com/cloudinnovate/devops/
                 └── StatusControllerTest.java
-```
-
----
 
 # Project Status
 
@@ -623,9 +562,8 @@ The most important lesson is that CI/CD is not simply about running Jenkins.
 
 The pipeline connects multiple stages:
 
-```text
 Source Control
-      ↓
+  
 Continuous Integration
       ↓
 Build
@@ -637,18 +575,16 @@ Artifact Publishing
 Remote Deployment
       ↓
 Application Verification
-```
 
-The project also demonstrates how a local VMware environment can be used to reproduce many of the practical workflows normally performed with AWS EC2 infrastructure.
+The project also demonstrates how a local VMware environment can be used to reproduce many of the practical workflows normally performed with AWS EC2 or on other cloud providers infrastructure.
 
----
 
 # Author
 
 **Anthony Abia**
 
-Junior DevOps / Cloud Engineer
+DevOps Engineer
 
-GitHub: `A-Tony1`
+GitHub: https://github.com/A-Tony1
 
 This project is continuously evolving as part of my hands-on DevOps engineering portfolio.
