@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-This document records the major issues encountered while building and operating the Local AWS EC2 CI/CD Lab.
+This document records the major issues encountered while building and operating the Local AWS EC2 CI/CD Project.
 
 The problems documented here are based on the actual implementation process and demonstrate practical troubleshooting across:
 
